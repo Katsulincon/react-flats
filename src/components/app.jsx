@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
+import GoogleMapReact from 'google-map-react';
+
 import FlatList from './flat_list';
-import GoogleMapReact from './google_map_react';
+
 import Flat from './flat';
 import flats from '../../data/flats';
+import Marker from './marker';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      selectedFlat: flats[0],
       flats: flats
     };
+  }
+
+  center() {
+    return {
+      lat: this.state.selectedFlat.lat,
+      lng: this.state.selectedFlat.lng
+    };
+  }
+
+  setFlat = (index) => {
+    this.setState({ selectedFlat: flats[index] });
   }
 
 
@@ -18,10 +33,19 @@ class App extends Component {
 
     return(
       <div>
-        <h1>Hello World</h1>
-        <FlatList />
-        <GoogleMapReact />
-        <Flat />
+        <FlatList
+          flats={this.state.flats}
+          selectedFlat={this.state.selectedFlat}
+          setFlat={this.setFlat}
+        />
+　　　　　<div className="map-container">
+          <GoogleMapReact
+            defaultCenter={this.center()}
+            defaultZoom={12}
+          >
+            <Marker lat={this.state.selectedFlat.lat} lng={this.state.selectedFlat.lng} />
+          </GoogleMapReact>
+        </div>
       </div>
     );
   }
