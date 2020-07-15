@@ -8,6 +8,7 @@ class FlatList extends Component {
   }
 
   render() {
+    const { setFlat, selectedFlat } = this.props;
     const flats = this.props.flats.map((flat, index) => {
       return (
         <Flat
@@ -16,7 +17,8 @@ class FlatList extends Component {
           key={flat.lat}
           flat={flat}
           index={index}
-          setFlat={this.props.setFlat}
+          setFlat={setFlat}
+          selected={flat.name === selectedFlat.name}
         />
       );
     });
